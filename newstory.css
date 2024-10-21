@@ -1,0 +1,114 @@
+/* Main body styling */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Prevent scrolling of the whole page */
+}
+
+/* Main container to center the content */
+.main-container {
+    width: 100vw; /* Full screen width */
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #e2e8f0; /* Light background color */
+}
+
+/* Content box that holds all the content */
+.content-box {
+    width: 90vw; /* Now spans 90% of the screen width */
+    height: 600px;
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0px 8px 24px rgba(0,0,0,0.15);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden; /* Hide overflow for fixed size box */
+}
+
+/* Title styling */
+.content-box h1 {
+    text-align: center;
+    color: #333;
+    font-size: 1.8rem;
+}
+
+/* Scrollable story list */
+.story-list {
+    overflow-y: auto; /* Allows scrolling */
+    flex-grow: 1; /* Makes it fill the remaining space */
+    padding-right: 20px;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Styling for each story card */
+.story-card {
+    background-color: #f9fafb;
+    padding: 20px;
+    width: 80%; /* Now takes up 80% of the container's width */
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+/* Hover effect on story card */
+.story-card:hover {
+    transform: translateY(-5px); /* Lift effect */
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12); /* More shadow on hover */
+}
+
+/* Text styling inside the story card */
+.story-card h2 {
+    font-size: 1.5em;
+    color: #4a5568;
+    margin-bottom: 10px;
+}
+
+.story-card p {
+    color: #718096;
+    margin-bottom: 10px;
+}
+
+/* Button inside the story card */
+.details-btn {
+    background-color: #5a67d8;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 1em;
+    margin-top: 10px;
+    transition: background-color 0.2s ease;
+}
+
+.details-btn:hover {
+    background-color: #434190;
+}
+
+/* Scrollbar customization (optional for modern browsers) */
+.story-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.story-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.story-list::-webkit-scrollbar-thumb {
+    background-color: #5a67d8;
+    border-radius: 10px;
+}

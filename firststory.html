@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Story Adventure</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .story-container {
+            background-color: #ffffff;
+            width: 80%;
+            max-width: 800px;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+        .progress-bar {
+            background-color: #e0e0e0;
+            border-radius: 8px;
+            height: 20px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .progress {
+            background-color: #5a67d8;
+            height: 100%;
+            width: 0;
+            border-radius: 8px;
+            transition: width 0.5s ease;
+        }
+        .story-text {
+            font-size: 1.2em;
+            color: #333333;
+            margin-bottom: 20px;
+            white-space: pre-wrap;
+        }
+        .choices {
+            display: flex;
+            flex-direction: column;
+        }
+        .choice-btn {
+            background-color: #5a67d8;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px 0;
+            font-size: 1em;
+        }
+        .choice-btn:hover {
+            background-color: #434190;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="story-container">
+        <div class="progress-bar">
+            <div id="progress" class="progress"></div>
+        </div>
+        <div id="story-text" class="story-text">
+            <!-- Story context goes here -->
+        </div>
+
+        <div id="choices" class="choices">
+            <!-- Choice buttons will be dynamically injected here -->
+        </div>
+    </div>
+
+    <script>
+        // Dynamic story data
+        const storyParts = {
+            1: {
+                text: "You awaken in a small village. The sun shines brightly as you step outside your house. To your left, the path leads to the enchanted forest. To your right, a road heads towards the mountains.",
+                choices: [
+                    { text: "Go to the enchanted forest", nextPart: 2 },
+                    { text: "Head towards the mountains", nextPart: 3 }
+                ]
+            },
+            2: {
+                text: "In the enchanted forest, magical creatures flutter around. A wise old owl approaches you and offers to guide you. Do you accept its help?",
+                choices: [
+                    { text: "Accept the owl's help", nextPart: 4 },
+                    { text: "Decline and explore alone", nextPart: 5 }
+                ]
+            },
+            3: {
+                text: "As you approach the mountains, a sudden storm brews. You find a cave to take shelter. Inside, you discover ancient writings on the walls. Do you try to decipher them?",
+                choices: [
+                    { text: "Try to decipher the writings", nextPart: 6 },
+                    { text: "Leave the cave quickly", nextPart: 7 }
+                ]
+            },
+            4: {
+                text: "The owl leads you to a hidden glade filled with glowing flowers. A magical fountain stands in the center. Do you drink from the fountain?",
+                choices: [
+                    { text: "Drink from the fountain", nextPart: 8 },
+                    { text: "Leave the glade", nextPart: 9 }
+                ]
+            },
+            5: {
+                text: "You wander deeper into the forest, but soon lose your way. Suddenly, a mischievous fairy appears. Do you trust her to guide you back?",
+                choices: [
+                    { text: "Trust the fairy", nextPart: 10 },
+                    { text: "Refuse her help", nextPart: 11 }
+                ]
+            },
+            6: {
+                text: "The writings tell tales of ancient heroes. You gain knowledge that enhances your abilities. Just then, you hear a noise outside the cave. Do you investigate?",
+                choices: [
+                    { text: "Investigate the noise", nextPart: 12 },
+                    { text: "Stay hidden in the cave", nextPart: 13 }
+                ]
+            },
+            7: {
+                text: "You dash out of the cave and find yourself back at the mountain road. The storm begins to clear. Do you continue up the mountain or return to the village?",
+                choices: [
+                    { text: "Continue up the mountain", nextPart: 14 },
+                    { text: "Return to the village", nextPart: 1 }
+                ]
+            },
+            8: {
+                text: "The water from the fountain grants you temporary magical powers! However, the flowers begin to wilt. Do you try to revive them?",
+                choices: [
+                    { text: "Try to revive the flowers", nextPart: 15 },
+                    { text: "Leave the glade", nextPart: 9 }
+                ]
+            },
+            9: {
+                text: "You leave the glade and find yourself back at the village. The villagers ask about your adventures. Do you tell them everything?",
+                choices: [
+                    { text: "Share your story", nextPart: 16 },
+                    { text: "Keep it a secret", nextPart: 1 }
+                ]
+            },
+            10: {
+                text: "The fairy guides you through a hidden path, leading to a treasure trove! Do you take some treasure or leave it untouched?",
+                choices: [
+                    { text: "Take some treasure", nextPart: 17 },
+                    { text: "Leave it untouched", nextPart: 18 }
+                ]
+            },
+            11: {
+                text: "You stumble around until you find a way back to the village. The villagers welcome you home. Do you stay or leave again?",
+                choices: [
+                    { text: "Stay in the village", nextPart: 1 },
+                    { text: "Leave again for adventure", nextPart: 2 }
+                ]
+            },
+            12: {
+                text: "You find a wounded animal. Using your newfound knowledge, you help it recover. It offers you a gift in return. Do you accept it?",
+                choices: [
+                    { text: "Accept the gift", nextPart: 19 },
+                    { text: "Politely decline", nextPart: 1 }
+                ]
+            },
+            13: {
+                text: "Staying hidden proves wise as a mountain lion passes by. Once it's gone, you explore the cave further, discovering hidden gems. Do you take one?",
+                choices: [
+                    { text: "Take a gem", nextPart: 20 },
+                    { text: "Leave the gems", nextPart: 1 }
+                ]
+            },
+            14: {
+                text: "As you climb higher, you encounter a wise old sage. He offers you wisdom in exchange for a story. Do you share one?",
+                choices: [
+                    { text: "Share a story", nextPart: 21 },
+                    { text: "Politely refuse", nextPart: 1 }
+                ]
+            },
+            15: {
+                text: "You manage to revive the flowers with your magic. They bloom brighter than ever! The owl rewards you with a magical charm. Do you keep it?",
+                choices: [
+                    { text: "Keep the charm", nextPart: 22 },
+                    { text: "Give it to the villagers", nextPart: 1 }
+                ]
+            },
+            16: {
+                text: "The villagers are amazed by your tale and celebrate your bravery. You feel proud and decide to settle down.",
+                choices: [
+                    { text: "End your adventure", nextPart: null }
+                ]
+            },
+            17: {
+                text: "With treasure in hand, you return to the village. The villagers honor you as a hero! Do you stay or seek more adventures?",
+                choices: [
+                    { text: "Stay as a hero", nextPart: 1 },
+                    { text: "Seek more adventures", nextPart: 2 }
+                ]
+            },
+            18: {
+                text: "Leaving the treasure untouched, you feel a sense of peace. You return to the village with stories to tell. Do you share them?",
+                choices: [
+                    { text: "Share your stories", nextPart: 16 },
+                    { text: "Keep them to yourself", nextPart: 1 }
+                ]
+            },
+            19: {
+                text: "The gift turns out to be a map leading to hidden treasures. You feel excited about your next adventure!",
+                choices: [
+                    { text: "Follow the map", nextPart: 23 },
+                    { text: "Stay in the village", nextPart: 1 }
+                ]
+            },
+            20: {
+                text: "The gem shines brightly, granting you a glimpse into the future. You see possibilities! Do you embrace this new power?",
+                choices: [
+                    { text: "Embrace the power", nextPart: 24 },
+                    { text: "Reject it", nextPart: 1 }
+                ]
+            },
+            21: {
+                text: "The sage listens intently, then shares ancient wisdom. You leave feeling enlightened. Do you use this wisdom to help others?",
+                choices: [
+                    { text: "Help others", nextPart: 25 },
+                    { text: "Keep it to yourself", nextPart: 1 }
+                ]
+            },
+            22: {
+                text: "The charm enhances your magical abilities. You feel ready for any challenge ahead. Do you seek out new adventures?",
+                choices: [
+                    { text: "Seek new adventures", nextPart: 2 },
+                    { text: "Stay and help the village", nextPart: 1 }
+                ]
+            },
+            23: {
+                text: "Following the map leads you to a hidden cave filled with treasures and ancient artifacts. Do you explore further?",
+                choices: [
+                    { text: "Explore the cave", nextPart: 26 },
+                    { text: "Leave the cave", nextPart: 1 }
+                ]
+            },
+            24: {
+                text: "Embracing the power allows you to see glimpses of the future. You decide to use this gift to guide others. Do you help the villagers?",
+                choices: [
+                    { text: "Help the villagers", nextPart: 1 },
+                    { text: "Use it for yourself", nextPart: 27 }
+                ]
+            },
+            25: {
+                text: "With your wisdom, you teach the villagers how to thrive. They are grateful, and you become a beloved figure.",
+                choices: [
+                    { text: "Stay with the villagers", nextPart: 1 },
+                    { text: "Seek new adventures", nextPart: 2 }
+                ]
+            },
+            26: {
+                text: "Inside the cave, you find artifacts of ancient power. Do you take one with you?",
+                choices: [
+                    { text: "Take an artifact", nextPart: 28 },
+                    { text: "Leave them untouched", nextPart: 1 }
+                ]
+            },
+            27: {
+                text: "Using your power for personal gain, you attract unwanted attention. Shadows lurk as you try to escape. Do you confront them?",
+                choices: [
+                    { text: "Confront the shadows", nextPart: 29 },
+                    { text: "Run away", nextPart: 1 }
+                ]
+            },
+            28: {
+                text: "The artifact grants you immense power, but it comes with a curse. Do you accept the risks?",
+                choices: [
+                    { text: "Accept the risks", nextPart: 30 },
+                    { text: "Leave the artifact", nextPart: 1 }
+                ]
+            },
+            29: {
+                text: "Confronting the shadows proves difficult, and you find yourself trapped. However, your bravery inspires others to help you escape.",
+                choices: [
+                    { text: "Join forces with them", nextPart: 31 },
+                    { text: "Try to break free alone", nextPart: 1 }
+                ]
+            },
+            30: {
+                text: "Accepting the curse transforms you, granting power but isolating you from others. Do you use this power for good?",
+                choices: [
+                    { text: "Use it for good", nextPart: 32 },
+                    { text: "Use it for evil", nextPart: 1 }
+                ]
+            },
+            31: {
+                text: "Together, you manage to break free from the shadows. Your newfound friends become your allies. Do you continue your journey with them?",
+                choices: [
+                    { text: "Continue with allies", nextPart: 33 },
+                    { text: "Part ways", nextPart: 1 }
+                ]
+            },
+            32: {
+                text: "Using your power for good, you help many and become a legend. Your story inspires others for generations.",
+                choices: [
+                    { text: "End your adventure", nextPart: null }
+                ]
+            },
+            33: {
+                text: "With your allies, you embark on grand adventures, facing challenges and celebrating victories. You realize the value of friendship.",
+                choices: [
+                    { text: "End your adventure", nextPart: null }
+                ]
+            }
+        };
+
+        function delay(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        async function renderText(text) {
+            const storyTextDiv = document.getElementById('story-text');
+            storyTextDiv.innerHTML = '';
+            for (const char of text) {
+                storyTextDiv.innerHTML += char;
+                await delay(30);
+            }
+        }
+
+        function updateProgress(partId) {
+            const progressBar = document.getElementById('progress');
+            const totalParts = Object.keys(storyParts).length;
+            const progressPercentage = (partId / totalParts) * 100;
+            progressBar.style.width = progressPercentage + '%';
+        }
+
+        async function renderStory(partId) {
+            const storyPart = storyParts[partId];
+            await renderText(storyPart.text);
+            updateProgress(partId);
+            const choicesDiv = document.getElementById('choices');
+            choicesDiv.innerHTML = '';
+
+            for (const choice of storyPart.choices) {
+                const choiceBtn = document.createElement('button');
+                choiceBtn.innerText = choice.text;
+                choiceBtn.classList.add('choice-btn');
+                choicesDiv.appendChild(choiceBtn);
+
+                choiceBtn.onclick = async () => {
+                    if (choice.nextPart !== null) {
+                        await renderText(""); // Clear story text before next part
+                        await renderStory(choice.nextPart);
+                    } else {
+                        await renderText("The adventure ends here. Thank you for playing!");
+                        choicesDiv.innerHTML = ''; // Clear choices when story ends
+                    }
+                };
+            }
+        }
+
+        // Initialize the story at part 1
+        renderStory(1);
+    </script>
+
+</body>
+</html>
