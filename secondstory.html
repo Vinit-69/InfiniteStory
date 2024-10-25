@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whispers In The Manor</title>
+    <style>
+        body {
+            font-family: "Monteserrat";
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url("Images/horror.jpg");
+            background-size: cover;
+        }
+        .story-container {
+            background-color: #ffffff;
+            width: 80%;
+            max-width: 800px;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+        .progress-bar {
+            background-color: #e0e0e0;
+            border-radius: 8px;
+            height: 20px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .progress {
+            background-color: #5a67d8; /* Default color */
+            height: 100%;
+            width: 0;
+            border-radius: 8px;
+            transition: width 0.5s ease, background-color 0.5s ease; /* Added transition for color */
+        }
+        .story-text {
+            font-size: 1.2em;
+            color: #333333;
+            margin-bottom: 20px;
+            white-space: pre-wrap;
+        }
+        .choice-btn {
+            background-color: #5a67d8;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px;
+            font-size: 1em;
+        }
+        .choice-btn:hover {
+            background-color: #434190;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="story-container">
+        <div class="progress-bar">
+            <div id="progress" class="progress"></div>
+        </div>
+        <div id="story-text" class="story-text">
+            <!-- Story here -->
+        </div>
+
+        <div id="choices" class="choices">
+            <!-- Choices here -->
+        </div>
+    </div>
+
+    <script>
+        const whispersInTheManor = {
+            1: {
+                text: "You arrive at the old manor rumored to be haunted. As night falls, you hear strange noises coming from the attic. Do you investigate?",
+                choices: [
+                    { text: "Yes, check the attic.", nextPart: 2 },
+                    { text: "No, leave immediately.", nextPart: 3 }
+                ]
+            },
+            2: {
+                text: "Climbing the creaky stairs to the attic, you find a dusty trunk. It's locked but seems to pulsate with energy. What do you do?",
+                choices: [
+                    { text: "Try to unlock the trunk.", nextPart: 4 },
+                    { text: "Ignore it and explore further.", nextPart: 5 }
+                ]
+            },
+            3: {
+                text: "You rush out, but the door slams shut behind you. You're trapped. A ghostly figure appears, blocking your way. The End.",
+                choices: [{ text: "Start Over", nextPart: 1 },
+                          { text: "End Game", nextPart: null}
+                ]
+            },
+            4: {
+                text: "You find a hidden key in the attic and unlock the trunk. Inside, you discover an old diary and a mysterious pendant. What do you do?",
+                choices: [
+                    { text: "Read the diary.", nextPart: 6 },
+                    { text: "Take the pendant and leave.", nextPart: 7 }
+                ]
+            },
+            5: {
+                text: "You find yourself in a long, dark hallway. Suddenly, you hear whispers. Do you follow the whispers or head back?",
+                choices: [
+                    { text: "Follow the whispers.", nextPart: 8 },
+                    { text: "Head back to the attic.", nextPart: 2 }
+                ]
+            },
+            6: {
+                text: "The diary reveals the tragic story of a family cursed to haunt the manor forever. It hints at a hidden treasure. Do you search for it?",
+                choices: [
+                    { text: "Yes, search for the treasure.", nextPart: 9 },
+                    { text: "Leave the diary and escape.", nextPart: 3 }
+                ]
+            },
+            7: {
+                text: "As you wear the pendant, the atmosphere changes. You hear a voice urging you to find the truth. Do you stay or leave?",
+                choices: [
+                    { text: "Stay and investigate.", nextPart: 10 },
+                    { text: "Leave the manor.", nextPart: 3 }
+                ]
+            },
+            8: {
+                text: "The whispers lead you to a hidden room filled with portraits of the family. One portrait's eyes follow you. What will you do?",
+                choices: [
+                    { text: "Examine the portrait.", nextPart: 11 },
+                    { text: "Look for an exit.", nextPart: 3 }
+                ]
+            },
+            9: {
+                text: "You uncover the treasure hidden in a secret compartment. The spirits of the family appear, thanking you for freeing them. The End.",
+                choices: [{ text: "Start Over", nextPart: 1 },
+                          { text: "End", nextPart: null}
+                ]
+            },
+            10: {
+                text: "You delve deeper into the manor and find clues leading to the family’s tragic fate. You uncover a way to break the curse. Do you proceed?",
+                choices: [
+                    { text: "Yes, break the curse.", nextPart: 12 },
+                    { text: "Leave and forget.", nextPart: 3 }
+                ]
+            },
+            11: {
+                text: "As you examine the portrait, it speaks! It reveals the family’s hidden secrets. Do you trust it?",
+                choices: [
+                    { text: "Yes, trust the portrait.", nextPart: 13 },
+                    { text: "No, back away.", nextPart: 3 }
+                ]
+            },
+            12: {
+                text: "You perform the ritual described in the diary, releasing the spirits. The manor is finally at peace. The End.",
+                choices: [{ text: "Start Over", nextPart: 1 },
+                { text: "End Game", nextPart: null}
+                ]
+            },
+            13: {
+                text: "The portrait guides you to the hidden treasure and helps you escape the manor safely. You leave a hero. The End.",
+                choices: [{ text: "Start Over", nextPart: 1 },
+                { text: "End Game", nextPart: null}
+                ]
+            }
+        };
+
+        function delay(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        async function renderText(text) {
+            const storyTextDiv = document.getElementById('story-text');
+            storyTextDiv.innerHTML = '';  
+
+            for (const char of text) {
+                storyTextDiv.innerHTML += char;  
+                await delay(30);  
+            }
+        }
+
+        function updateProgress(partId) {
+            const progressBar = document.getElementById('progress');
+            const totalParts = Object.keys(whispersInTheManor).length;
+            const progressPercentage = (partId / totalParts) * 100;
+            progressBar.style.width = progressPercentage + '%';  
+
+           
+            if (whispersInTheManor[partId].choices.length === 0) {
+                progressBar.style.backgroundColor = 'gold';
+            } else {
+                progressBar.style.backgroundColor = '#5a67d8'; 
+            }
+        }
+
+        async function renderStory(partId) {
+            const storyPart = whispersInTheManor[partId];
+            const choicesDiv = document.getElementById('choices');
+
+            choicesDiv.style.display = 'none';  
+            await renderText(storyPart.text);
+            updateProgress(partId);
+
+            choicesDiv.innerHTML = ''; 
+            for (const choice of storyPart.choices) {
+                const choiceBtn = document.createElement('button');
+                choiceBtn.innerText = choice.text;
+                choiceBtn.classList.add('choice-btn');
+                choicesDiv.appendChild(choiceBtn);
+
+                choiceBtn.onclick = async () => {
+                    if (choice.nextPart !== null) {
+                        await renderStory(choice.nextPart);
+                    } else {
+                        await renderText("The adventure ends here. Thank you for playing!");
+                        updateProgress(Object.keys(whispersInTheManor).length); 
+                        choicesDiv.innerHTML = '';  
+                    }
+                };
+            }
+
+            choicesDiv.style.display = 'block';  
+        }
+
+        renderStory(1);  
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Lost Colony</title>
+    <style>
+        body {
+            font-family: "Monteserrat";
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url("Images/scifi.jpeg");
+            background-size: cover;
+        }
+        .story-container {
+            background-color: #ffffff;
+            width: 80%;
+            max-width: 800px;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+        .progress-bar {
+            background-color: #e0e0e0;
+            border-radius: 8px;
+            height: 20px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .progress {
+            background-color: #5a67d8; /* Default color */
+            height: 100%;
+            width: 0;
+            border-radius: 8px;
+            transition: width 0.5s ease, background-color 0.5s ease; /* Added transition for color */
+        }
+        .story-text {
+            font-size: 1.2em;
+            color: #333333;
+            margin-bottom: 20px;
+            white-space: pre-wrap;
+        }
+        .choice-btn {
+            background-color: #5a67d8;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px;
+            font-size: 1em;
+        }
+        .choice-btn:hover {
+            background-color: #434190;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="story-container">
+        <div class="progress-bar">
+            <div id="progress" class="progress"></div>
+        </div>
+        <div id="story-text" class="story-text">
+            <!-- Story here -->
+        </div>
+
+        <div id="choices" class="choices">
+            <!-- Choices here -->
+        </div>
+    </div>
+
+    <script>
+        const theLostColony = {
+            1: {
+                text: "You land on a distant planet where the lost colony of humanity was supposed to be. As you step out of your ship, eerie silence envelops you. Do you explore the area?",
+                choices: [
+                    { text: "Yes, investigate the nearby ruins.", nextPart: 2 },
+                    { text: "No, call for help.", nextPart: 3 }
+                ]
+            },
+            2: {
+                text: "In the ruins, you discover strange symbols on the walls. Suddenly, you hear footsteps. Do you hide or confront the source?",
+                choices: [
+                    { text: "Hide and observe.", nextPart: 4 },
+                    { text: "Confront the source.", nextPart: 5 }
+                ]
+            },
+            3: {
+                text: "Help arrives, but you have no evidence of the colony. The mission is a failure, and you're sent back to Earth. The End.",
+                choices: [{ text: "Start Over", nextPart: 1 }]
+            },
+            4: {
+                text: "You see a group of people in strange attire speaking a language you can't understand. Do you approach them or stay hidden?",
+                choices: [
+                    { text: "Approach them cautiously.", nextPart: 6 },
+                    { text: "Stay hidden and gather information.", nextPart: 7 }
+                ]
+            },
+            5: {
+                text: "You find a survivor from the colony. They tell you about a looming danger. Do you trust them?",
+                choices: [
+                    { text: "Yes, team up with them.", nextPart: 8 },
+                    { text: "No, go alone.", nextPart: 3 }
+                ]
+            },
+            6: {
+                text: "The group welcomes you, revealing they are descendants of the lost colonists. They offer to show you their settlement. Do you accept?",
+                choices: [
+                    { text: "Yes, follow them.", nextPart: 9 },
+                    { text: "No, stay and investigate the ruins further.", nextPart: 10 }
+                ]
+            },
+            7: {
+                text: "While hiding, you overhear a plot to sabotage your ship. Do you warn the others or keep it to yourself?",
+                choices: [
+                    { text: "Warn the others.", nextPart: 11 },
+                    { text: "Keep it to yourself.", nextPart: 3 }
+                ]
+            },
+            8: {
+                text: "Together, you uncover a hidden chamber containing advanced technology. Do you attempt to activate it?",
+                choices: [
+                    { text: "Yes, try to activate the technology.", nextPart: 12 },
+                    { text: "No, leave it alone.", nextPart: 3 }
+                ]
+            },
+            9: {
+                text: "The settlement is thriving but lacks resources. They ask for your help in rebuilding. Do you assist them?",
+                choices: [
+                    { text: "Yes, help them rebuild.", nextPart: 13 },
+                    { text: "No, focus on getting back to your ship.", nextPart: 3 }
+                ]
+            },
+            10: {
+                text: "While investigating, you discover an ancient artifact that may hold the key to the colony's fate. Do you take it with you?",
+                choices: [
+                    { text: "Yes, take the artifact.", nextPart: 14 },
+                    { text: "Leave it and report back.", nextPart: 3 }
+                ]
+            },
+            11: {
+                text: "You warn the others just in time, preventing a disaster. They offer to assist you in repairing your ship. The End.",
+                choices: [{ text: "Start Over", nextPart: 1 }]
+            },
+            12: {
+                text: "The technology works! It sends a distress signal to Earth, and help is on the way. The End.",
+                choices: [{ text: "Start Over", nextPart: 1 }]
+            },
+            13: {
+                text: "You help them rebuild, and in return, they share their knowledge of the planet's resources. A new era begins! The End.",
+                choices: [{ text: "Start Over", nextPart: 1 }]
+            },
+            14: {
+                text: "Taking the artifact back to your ship reveals secrets of the lost colony, and you become a hero upon your return to Earth. The End.",
+                choices: [{ text: "Start Over", nextPart: 1 }]
+            }
+        };
+
+        function delay(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        async function renderText(text) {
+            const storyTextDiv = document.getElementById('story-text');
+            storyTextDiv.innerHTML = '';  // Clear existing text
+
+            for (const char of text) {
+                storyTextDiv.innerHTML += char;  // Add characters one by one
+                await delay(30);  // Delay to simulate typing effect
+            }
+        }
+
+        function updateProgress(partId) {
+            const progressBar = document.getElementById('progress');
+            const totalParts = Object.keys(theLostColony).length;
+            const progressPercentage = (partId / totalParts) * 100;
+            progressBar.style.width = progressPercentage + '%';  // Update progress bar
+
+            // Change to golden color if it's an ending
+            if (theLostColony[partId].choices.length === 0) {
+                progressBar.style.backgroundColor = 'gold';
+            } else {
+                progressBar.style.backgroundColor = '#5a67d8'; // Reset to default color
+            }
+        }
+
+        async function renderStory(partId) {
+            const storyPart = theLostColony[partId];
+            const choicesDiv = document.getElementById('choices');
+
+            choicesDiv.style.display = 'none';  // Hide choices while rendering text
+            await renderText(storyPart.text);
+            updateProgress(partId);
+
+            choicesDiv.innerHTML = '';  // Clear old choices
+
+            for (const choice of storyPart.choices) {
+                const choiceBtn = document.createElement('button');
+                choiceBtn.innerText = choice.text;
+                choiceBtn.classList.add('choice-btn');
+                choicesDiv.appendChild(choiceBtn);
+
+                choiceBtn.onclick = async () => {
+                    await renderStory(choice.nextPart);
+                };
+            }
+
+            choicesDiv.style.display = 'block';  // Show choices after text rendering
+        }
+
+        renderStory(1);  // Initialize the story at part 1
+    </script>
+
+</body>
+</html>

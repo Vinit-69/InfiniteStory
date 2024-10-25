@@ -154,6 +154,21 @@
         .signup a:hover {
             text-decoration: underline;
         }
+        .signupbutton{
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s ease;
+        }
+        .signupbutton:hover{
+            background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+        }
     </style>
 </head>
 <body>
@@ -161,7 +176,7 @@
     <div class="login-container">
         <div class="login-box">
             <h2>Login</h2>
-            <form action="login" method="post">
+            <form id="login-form">
                 <div class="input-group">
                     <label for="email">Email ID</label>
                     <input type="email" id="email" name="email" required>
@@ -170,30 +185,101 @@
                     <label for="password">Password</label>
                     <input type="password" id="password" name="password" required>
                 </div>
-                <button type="submit" class="login-btn" onclick = "thankyou()">LOGIN</button>
-                <button type="redirect" class="login-btn" onclick="backhome()">BACK TO HOME</button>
-                <a href="forgot.html" class="forgot-password">Forgot password?</a>
+                <button type="submit" class="login-btn">LOGIN</button>
+                <button type="button" class="login-btn" onclick="backhome()">BACK TO HOME</button>
+                <a href="#" class="forgot-password" onclick="showForgotPassword()">Forgot password?</a>
             </form>
             <div class="social-login">
                 <p>Or Sign Up Using</p>
-                <div class="social-icons">
-                    <a href="https://www.facebook.com/" class="fb" target="_blank">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook">
-                    </a>
-                    <a href="https://www.google.co.in/" class="g" target="_blank">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/4a/Logo_2013_Google.png" alt="Google">
-                    </a>
-                </div>
+                <button onclick="showSignup()" class="signupbutton">Sign Up</button>
+            </div>
+            <div id="signup-container" style="display:none;">
+                <h2>Sign Up</h2>
+                <form id="signup-form">
+                    <div class="input-group">
+                        <label for="signup-email">Email ID</label>
+                        <input type="email" id="signup-email" name="signup-email" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="signup-password">Password</label>
+                        <input type="password" id="signup-password" name="signup-password" required>
+                    </div>
+                    <button type="submit" class="login-btn">CREATE ACCOUNT</button>
+                </form>
+            </div>
+            <div id="forgot-password-container" style="display:none;">
+                <h2>Reset Password</h2>
+                <form id="reset-password-form">
+                    <div class="input-group">
+                        <label for="reset-email">Email ID</label>
+                        <input type="email" id="reset-email" name="reset-email" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="new-password">New Password</label>
+                        <input type="password" id="new-password" name="new-password" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="confirm-password">Confirm Password</label>
+                        <input type="password" id="confirm-password" name="confirm-password" required>
+                    </div>
+                    <button type="submit" class="login-btn">RESET PASSWORD</button>
+                </form>
             </div>
         </div>
     </div>
+
     <script>
+        document.getElementById('login-form').onsubmit = function(event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            const storedPassword = localStorage.getItem(email);
+            if (storedPassword === password) {
+                window.location.href = 'InfiniteStory_1.html'; // Redirect to home page
+            } else {
+                alert('Invalid credentials. Please try again.');
+            }
+        };
+
+        document.getElementById('signup-form').onsubmit = function(event) {
+            event.preventDefault();
+            const signupEmail = document.getElementById('signup-email').value;
+            const signupPassword = document.getElementById('signup-password').value;
+
+            localStorage.setItem(signupEmail, signupPassword);
+            alert('Account created successfully! You can now log in.'); // Pop-up notification
+            document.getElementById('signup-container').style.display = 'none'; // Hide signup form
+        };
+
+        document.getElementById('reset-password-form').onsubmit = function(event) {
+            event.preventDefault();
+            const resetEmail = document.getElementById('reset-email').value;
+            const newPassword = document.getElementById('new-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+
+            if (newPassword === confirmPassword) {
+                localStorage.setItem(resetEmail, newPassword);
+                alert('Password reset successfully! You can now log in.'); // Pop-up notification
+                document.getElementById('forgot-password-container').style.display = 'none'; // Hide reset form
+            } else {
+                alert('Passwords do not match. Please try again.');
+            }
+        };
+
+        function showSignup() {
+            document.getElementById('signup-container').style.display = 'block';
+            document.getElementById('forgot-password-container').style.display = 'none'; // Hide forgot password
+        }
+
+        function showForgotPassword() {
+            document.getElementById('forgot-password-container').style.display = 'block';
+            document.getElementById('signup-container').style.display = 'none'; // Hide signup form
+        }
+
         function backhome() {
-      window.location.href = 'InfiniteStory_1.html'; 
-    }
-       function thankyou(){
-        window.location.href = 'thankyou.html';
-       }
+            window.location.href = 'InfiniteStory_1.html'; 
+        }
     </script>
 </body>
 </html>

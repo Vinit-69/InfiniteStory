@@ -35,6 +35,10 @@ body {
     object-fit: cover;
 }
 
+.logo{
+  margin-left: 10px;
+}
+
 .divider {
     width: 80%;
     height: 1px;

@@ -1,17 +1,33 @@
 function showDetails(storyId) {
     switch(storyId) {
         case 1:
-            alert("Adventure in the Wild: Full Story Details here...");
-            // Alternatively, redirect to a dedicated story page
-            // window.location.href = 'story1-details.html';
+            alert("“Crossing Paths” explores the emotional journey of Ava as she navigates her feelings for Ethan Parker, her first love, after a chance encounter reignites memories of their past. The story unfolds through a series of heartfelt interactions that challenge Ava to confront her desires and fears.");
+            
             break;
         case 2:
-            alert("Mystery of the Forgotten City: Full Story Details here...");
+            alert("“Whispers in the Manor” follows Sarah as she investigates the chilling rumors surrounding the abandoned Eldridge Manor, where strange occurrences and disappearances have plagued the town for decades. The story intertwines themes of fear, curiosity, and the unknown, drawing players into a narrative filled with suspense and supernatural elements.");
             break;
         case 3:
-            alert("Space Odyssey 3000: Full Story Details here...");
+            alert("“The Lost Colony” follows Alex as they embark on a mission to uncover the fate of the vanished settlers. As Alex navigates the alien landscape and interacts with the remnants of the lost colony, the story unfolds through a series of choices that shape the narrative and reveal the hidden truths of Terra Nova.");
             break;
         default:
             alert("Story details not found.");
+    }
+}
+function startStory(storynumber){
+    switch(storynumber){
+        case 1:
+            window.location.href = 'firststory.html';
+            break;
+
+        case 2:
+            window.location.href = 'secondstory.html';
+            break;
+
+        case 3:
+            window.location.href = 'thirdstory.html';
+            break;
+        default:
+            alert("Story Not Found.");
     }
 }

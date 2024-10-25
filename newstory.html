@@ -7,41 +7,67 @@
     <link rel="stylesheet" href="newstory.css">
 </head>
 <body>
-    <div class="main-container">
-        <div class="content-box">
-            <h1>Choose Your Story</h1>
+    <div class="sidebar">
+        <div class="logo">
+            <img src="Images/Logo.png" alt="InfiniteStoryLogo">
+        </div>
+        <div class="divider"></div>
+        <div class="nav"> 
+            <ul>
+                <li><a href="InfiniteStory_1.html" title="Go to Home">Home</a></li>
+                <li><a href="newstory.html" title="Start a new story">Start New Story</a></li>
+                <li><a href="#" title="continue previous story">Continue Story</a></li>
+                <li><a href="#" title="Choose from other stories">Story Archive</a></li>
+                <li><a href="#" title="Interact with the community">Community</a></li>
+                <li><a href="#" title="Customize Your Experience">Settings</a></li>
+                <li><a href="help.html" title="Your own guide" target="_blank">Help</a></li>
+                <li><a href="about.html" title="About us" target="_blank">About</a></li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="container">
+        <button id="sidebarhide" class="sidebartoggle" onclick="toggleSidebar()">☰</button>
+        <div class="content">
+            <h1 class="choose">Choose Your Story</h1>
             
-            <!-- Story List (Vertically Stacked Cards in Scrollable Box) -->
-            <div class="story-list">
-                <!-- Story Card 1 -->
-                <div class="story-card">
-                    <h2>Adventure in the Wild</h2>
-                    <p><strong>Genre:</strong> Adventure</p>
-                    <p><strong>Author:</strong> John Doe</p>
-                    <button class="details-btn" onclick="showDetails(1)">View Details</button>
+            <div class="storylist">
+                <div class="storycard" id="story1">
+                    <h2>Crossing Paths</h2>
+                    <p><strong>Genre:</strong> Romance, Drama</p>
+                    <button class="details" onclick="showDetails(1)">View Details</button>
+                    <button class="startbutton" onclick="startStory(1)">Start</button>
                 </div>
 
-                <!-- Story Card 2 -->
-                <div class="story-card">
-                    <h2>Mystery of the Forgotten City</h2>
-                    <p><strong>Genre:</strong> Mystery</p>
-                    <p><strong>Author:</strong> Jane Smith</p>
-                    <button class="details-btn" onclick="showDetails(2)">View Details</button>
+                <div class="storycard" id="story2">
+                    <h2>Whispers in the Manor</h2>
+                    <p><strong>Genre:</strong> Horror, Mystery</p>
+                    <button class="details" onclick="showDetails(2)">View Details</button>
+                    <button class="startbutton" onclick="startStory(2)">Start</button>
                 </div>
 
-                <!-- Story Card 3 -->
-                <div class="story-card">
-                    <h2>Space Odyssey 3000</h2>
+                <div class="storycard" id="story3">
+                    <h2>The Lost Colony</h2>
                     <p><strong>Genre:</strong> Sci-Fi</p>
-                    <p><strong>Author:</strong> Alex Johnson</p>
-                    <button class="details-btn" onclick="showDetails(3)">View Details</button>
+                    <button class="details" onclick="showDetails(3)">View Details</button>
+                    <button class="startbutton" onclick="startStory(3)">Start</button>
                 </div>
-
-                <!-- Add more story cards as needed -->
             </div>
         </div>
     </div>
 
     <script src="newstory.js"></script>
+    <script src="whispersInTheManor.js"></script>
+    <script src="theLostColony.js"></script>
+    <script>
+        function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const mainContent = document.querySelector('.main');
+    
+    sidebar.classList.toggle('sidebar-hidden');
+    mainContent.classList.toggle('sidebar-hidden');
+}
+
+    </script>
 </body>
 </html>
