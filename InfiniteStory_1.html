@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A captivating text-based adventure game. Embark on a journey through an interactive story with choices that shape your destiny.">
+    <meta name="keywords" content="text-based game, adventure game, interactive fiction, HTML, CSS, JavaScript, online game">
+    <meta name="author" content="Vinit">
+    <link rel="icon" href="Logo.ico" type="image/x-icon">
+    <link rel="Stylesheet" href="Styles.css">
+    <title>InfiniteStory</title>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <img src="Logo.png" alt="InfiniteStoryLogo">
+        </div>
+        <div class="divider"></div>
+        <div class="nav">
+        <ul>
+            <li><a href="InfiniteStory_1.html" title="Go to Home">Home</a></li>
+            <li><a href="#" title="Start a new story">Start New Story</a></li>
+            <li><a href="#" title="continue previous story">Continue Story</a></li>
+            <li><a href="#" title="Choose from other stories">Story Archive</a></li>
+            <li><a href="#" title="Interact with the community">Community</a></li>
+            <li><a href="#" title="Customize Your Experience">Settings</a></li>
+            <li><a href="help.html" title="Your own guide" target="_blank">Help</a></li>
+            <li><a href="about.html" title="About us" target="_blank">About</a></li>
+        </ul>
+        </div>
+    
+    </div>
+    <div class="main">
+        <button id="sidebarhide" class="sidebartoggle" onclick="toggleSidebar()">☰</button>
+        <button id="loginButton" onclick="redirectToLogin()">Login</button>
+        <div class="header">
+            <h1>InfiniteStory</h1>
+            <p>Where Your Imagination Takes the Lead</p>
+            <div class="home_buttons">
+                <a href="#" class="primary">Start New Story</a>
+                <a href="#" class="secondary">Continue Story</a>
+            </div>
+        </div>
+        <div class="Intro">
+            <p>InfiniteStory is a dynamic, text-based game that allows you to create and explore stories where every decision you make shapes the narrative. Join our community of storytellers and let your imagination guide the adventure.</p>
+            
+        </div>
+        <div class="morecontent">
+            <div class="tutorial">
+            <h1>Getting Started with InfiniteStory</h1>
+            <p>Welcome to InfiniteStory! This tutorial will guide you through the basics to help you start your adventure. Lets dive in!</p>
+            <div class="text-box">
+            <h3>Understanding the Basics</h3>
+            <p>InfiniteStory is an interactive text-based game powered by advanced AI. You'll make decisions, solve puzzles, and navigate through a rich, evolving story.</p>
+        </div>
+        <div class="text-box">
+            <h3>Starting the Game</h3>
+            <p>Create an Account: Click on the "Log in" button to log in.</p>
+            <p>Start New Game: Once logged in, click "Start New Game" to begin your adventure.</p>
+        </div>
+        <div class="text-box">
+            <h3>Navigating the Game</h3>
+            <p>Text Interface: The game primarily uses text to convey the story and interactions. You will read descriptions and make choices through text input.</p>
+            <p>Reading Descriptions: Pay attention to the descriptions provided. They will guide you through your current situation and offer clues about what to do next.</p>
+            <p>Making Choices: AI will present you with some choices based on the scenario, you can choose out of those, or you can enter your own thing in prompt and that will count as your choice.</p>
+        </div>
+        </div>
+        </div>
+        
+ 
+<footer class="footer">
+    <div class="footer-section legal">
+        <h3>Legal</h3>
+        <ul>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+  
+      <div class="footer-section social">
+        <h3>Follow Us</h3>
+        <a href="https://www.facebook.com/" target="_blank"><img src="facebook.png" alt="Facebook"></a>
+        <a href="https://x.com/X" target="_blank"><img src="X.png" alt="Twitter"></a>
+        <a href="https://www.instagram.com/" target="_blank"><img src="insta.png" alt="Instagram"></a>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>&copy; 2024 InfiniteStory. All rights reserved.</p>
+    </div>
+</footer>
+
+<script src="https://unpkg.com/scrollreveal"></script>
+<script>
+    ScrollReveal().reveal('.text-box', {
+    distance: '20px',
+    duration: 600,
+    easing: 'ease-out',
+    origin: 'bottom',
+    reset: true,
+});
+
+</script>
+<script src="JS.js"></script>
+
+</body>
+</html>

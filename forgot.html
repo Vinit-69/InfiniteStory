@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Forgot Password Page">
+    <title>Forgot Password</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            color: #fff;
+            background: url('https://images.unsplash.com/photo-1506748686214e9df14e0a4f0c6b62c7c855d870055c?fit=crop&w=1920&h=1080') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .form-box {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            max-width: 400px;
+            width: 100%;
+            margin: 20px;
+        }
+
+        .form-box h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .form-box p {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .form-box input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .form-box input[type="email"], 
+        .form-box input[type="password"] {
+            background: #fff;
+            color: #333;
+        }
+
+        .form-box button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .form-box button:hover {
+            background-color: #0056b3;
+        }
+
+        .form-box .back-button {
+            background-color: #6c757d;
+        }
+
+        .form-box .back-button:hover {
+            background-color: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-box">
+            <h2>Forgot Password</h2>
+            <p>Enter your email, a new password, and confirm the new password.</p>
+            <form action="reset-password" method="post">
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                <input type="password" id="new-password" name="new-password" placeholder="Enter new password" required>
+                <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm new password" required>
+                
+                <button type="button" class="back-button" onclick="goHome()">submit</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        function goHome() {
+            window.location.href = 'Login.html'; 
+        }
+    </script>
+</body>
+</html>
