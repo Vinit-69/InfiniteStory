@@ -1,0 +1,67 @@
+/* App.css */
+body {
+  font-family: "Montserrat", sans-serif;
+  background-color: #f0f4f8;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-image: url("C:/Recovered/FEE Project/Site/Main/Images/try2.jpg");
+  background-size: cover;
+}
+
+.app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+}
+
+.story-container {
+  background-color: #ffffff;
+  width: 80%;
+  max-width: 800px;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.progress-bar {
+  background-color: #e0e0e0;
+  border-radius: 8px;
+  height: 20px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.progress {
+  background-color: #5a67d8;
+  height: 100%;
+  border-radius: 8px;
+  transition: width 0.5s ease, background-color 0.5s ease;
+}
+
+.story-text {
+  font-size: 1.2em;
+  color: #333333;
+  margin-bottom: 20px;
+  white-space: pre-wrap;
+}
+
+.choice-btn {
+  background-color: #5a67d8;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 10px;
+  font-size: 1em;
+}
+
+.choice-btn:hover {
+  background-color: #434190;
+}

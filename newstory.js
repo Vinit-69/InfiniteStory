@@ -17,7 +17,7 @@ function showDetails(storyId) {
 function startStory(storynumber){
     switch(storynumber){
         case 1:
-            window.location.href = 'firststory.html';
+            window.location.href = 'http://localhost:3000';
             break;
 
         case 2:
